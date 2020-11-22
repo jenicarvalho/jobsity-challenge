@@ -1,0 +1,22 @@
+.reminder-form {
+  border: 1px solid #bbb;
+  margin-top: 20px;
+  padding: 0 20px 10px 20px;
+
+  input {
+    width: 100%;
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+  }
+
+  button {
+    margin: 10px 0;
+    border: none;
+    background: #2a72b7;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+}
