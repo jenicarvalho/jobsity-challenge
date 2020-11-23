@@ -25,18 +25,28 @@ class Reminder extends React.Component {
             name="reminderText" 
             placeholder="Text here..." 
             maxLength="30"
+            required
           />
           <Input 
             type="date"
             name="date"
+            required
           />
           <Input 
             type="time" 
             name="time" 
+            required
+          />
+          <Input 
+            type="text" 
+            name="city" 
+            placeholder="City" 
+            required
           />
           <Input 
             type="color" 
             name="color" 
+            required
           />
           <button type="submit">Add Reminder</button>
         </Form>

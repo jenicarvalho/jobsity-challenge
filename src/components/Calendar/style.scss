@@ -235,3 +235,17 @@ main {
   flex-basis: calc(100%/7);
   width: calc(100%/7);
 }
+
+.list-reminder {
+  font-size: 10px;
+  margin-top: 30px;
+  color: #ddd;
+  padding: 0 2px;
+  overflow: scroll;
+  text-align: right;
+
+  .time {
+    padding-left: 2px;
+  }
+
+}

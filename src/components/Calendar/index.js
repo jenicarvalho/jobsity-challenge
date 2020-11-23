@@ -4,12 +4,14 @@ import dateFns from "date-fns";
 import Reminder from '../Reminder/index'
 import './style.scss'
 
+import { connect } from 'react-redux'
+
 class Calendar extends React.Component {
   
-    state = {
-      currentMonth: new Date(),
-      selectedDate: new Date()
-    };
+  state = {
+    currentMonth: new Date(),
+    selectedDate: new Date(),
+  };
 
   renderHeader() {
     const dateFormat = "MMMM YYYY";
@@ -50,6 +52,7 @@ class Calendar extends React.Component {
 
   renderCells() {
     const { currentMonth, selectedDate } = this.state;
+    const { reminder } = this.props
     const monthStart = dateFns.startOfMonth(currentMonth);
     const monthEnd = dateFns.endOfMonth(monthStart);
     const startDate = dateFns.startOfWeek(monthStart);
@@ -62,20 +65,30 @@ class Calendar extends React.Component {
     let day = startDate;
     let formattedDate = "";
 
+    
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
+
         formattedDate = dateFns.format(day, dateFormat);
         const cloneDay = day;
         days.push(
           <div
-            className={`col cell ${
-              !dateFns.isSameMonth(day, monthStart)
-                ? "disabled"
-                : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
-            }`}
-            key={day}
-            onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
+          className={`col cell ${
+            !dateFns.isSameMonth(day, monthStart)
+            ? "disabled"
+            : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
+          }`}
+          key={day}
+          onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
           >
+            {reminder && dateFns.isSameDay(day, reminder[i]?.date) && (
+              
+              <div className="list-reminder" style={{ backgroundColor: reminder[i]?.color}}>
+                <div className="text">{reminder[i]?.reminderText}</div>
+                <div className="time">{reminder[i]?.time}</div>
+                <div className="city">{reminder[i]?.city}</div>
+              </div>
+            )}
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
           </div>
@@ -110,6 +123,12 @@ class Calendar extends React.Component {
     });
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.reminder !== this.props.reminder) {
+      this.renderCells()
+    }
+  }
+
   render() {
     return (
       <>
@@ -125,4 +144,10 @@ class Calendar extends React.Component {
   }
 }
 
-export default Calendar;
+function mapStateToProps(state) {
+  return {
+    reminder: state.reminder
+  }
+}
+
+export default connect(mapStateToProps)(Calendar)
